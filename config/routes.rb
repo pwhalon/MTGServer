@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'magic/cards', to: 'magic#cards'
   get 'magic/index', to: 'magic#index'
+  get 'magic/search', to: 'magic#search'
 
   root 'magic#index'
 

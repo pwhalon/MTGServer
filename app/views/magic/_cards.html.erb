@@ -1,0 +1,6 @@
+<h3>Search Patrick's Magic card collection</h3>
+<%= form_tag('/magic/search', method: 'get') do %>
+  <%= label_tag('magic_card_search', 'Magic Card Search', class: '') %>
+  <%= text_field_tag('magic_card_search', nil, placeholder: 'Magic Card Name...') %>
+  <%= submit_tag('search') %>
+<% end %>
