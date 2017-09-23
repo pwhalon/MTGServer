@@ -1,16 +1,9 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <h1 class="panel panel-heading">Mana Server</h1>
+  <div class="panel panel-body">
+    <div class="panel panel-body">
+      <h3 class="text-center">Search Magic Card Collection</h3>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <div class="panel panel-body">
-        <h1 class="text-center">Welcome to Patrick's Magic the Gathering Server</h1>
-        <%= render 'magic/cards' %>
-      </div>
-    </div>
+    <%= render 'magic/search_form' %>
+    <%= render 'magic/matching_cards' %>
   </div>
 </div>

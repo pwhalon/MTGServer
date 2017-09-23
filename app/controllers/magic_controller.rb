@@ -7,7 +7,7 @@ class MagicController < ApplicationController
 
   def search
     params.permit(:magic_card_search)
-    cards = MyCard.with_name(params[:magic_card_search])
-    render :index, plain: cards.to_json
+    @matching_cards = MyCard.with_name(params[:magic_card_search])
+    render :index
   end
 end

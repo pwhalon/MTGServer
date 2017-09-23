@@ -1,0 +1,20 @@
+<table class="table table-hover table-inverse table-responsive">
+  <thead>
+    <tr>
+      <th>Quantity</th>
+      <th>Name</th>
+      <th>Box</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @matching_cards %>
+      <% @matching_cards.each do |card| %>
+        <tr>
+          <td><%= card.quantity %> x </td>
+          <td><%= card.name %></td>
+          <td><%= card.box %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>ManaServer</title>
-  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <title>ManaServer</title>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
 
-<%= yield %>
+  <body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+      <a class="navbar-brand" href="#">Mana Server</a>
+      <div class="navbar-nav">
+        <a class="nav-item nav-link" href="#">Metrics</a>
+        <a class="nav-item nav-link" href="#">Transactions</a>
+        <a class="nav-item nav-link" href="#">About</a>
+      </div>
+    </nav>
 
-</body>
+    <%= yield %>
+  </body>
 </html>

@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <%= form_tag('/magic/search', method: 'get') do %>
+  <div class="form-group row">
+      <%= label_tag('magic_card_search', 'Magic Card Search', class: 'text-center col-md-2 col-form-label', title: 'Search by card title') %>
+      <div class="col col-md-9">
+      <%= text_field_tag('magic_card_search', nil, placeholder: 'Magic Card Name...', class: 'form-control', id: 'magic_card_search') %>
+      </div>
+      <div class="col-md-auto">
+        <%= submit_tag('search', class: 'btn btn-dark') %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'magic/cards', to: 'magic#cards'
+  get 'magic/search_form', to: 'magic#search_form'
   get 'magic/index', to: 'magic#index'
   get 'magic/search', to: 'magic#search'
 
