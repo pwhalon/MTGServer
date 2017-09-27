@@ -4,5 +4,5 @@ class MyCard < ActiveRecord::Base
 
   scope :with_box_number, ->(box_number) { where(box: box_number) }
   scope :with_name, ->(name) { where(name: name) }
-  scope :having_quanity, ->(number) { where(quantity: number) }
+  scope :having_quantity, ->(number) { where(quantity: number) }
 end
