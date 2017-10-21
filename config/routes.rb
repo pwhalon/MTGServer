@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
-  get 'magic/search_form', to: 'magic#search_form'
+  get 'magic', to: 'magic#index'
   get 'magic/index', to: 'magic#index'
   get 'magic/search', to: 'magic#search'
+
+  get 'transaction', to: 'transaction#index'
+  get 'transaction/index', to: 'transaction#index'
+  get 'transaction/add_cards', to: 'transaction#index'
+  post 'transaction/add_cards', to: 'transaction#add_cards'
 
   root 'magic#index'
 
