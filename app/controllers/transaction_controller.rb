@@ -1,50 +1,42 @@
 class TransactionController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  NEW_CARD_FIELDS = ['name', 'quantity', 'box_number']
+  NEW_CARD_FIELDS = ['name', 'quantity', 'box_number', 'transaction_entry']
 
   def index
   end
 
   def add_cards
-    filter_params = params.require('cards')
+    parsed_params = JSON.parse(params['list'])
 
-    unless filter_params.any?
-      flash.now[:error] = 'Please use the correct format'
-      return render :index, status: :bad_request
-    end
+    transaction_failures = []
+    status = :ok
 
-    flash[:error] = []
-    flash[:notice] = []
-    valid_cards = []
+    parsed_params.each do |transaction|
+      filter_transaction = transaction.slice(*NEW_CARD_FIELDS)
 
-    filter_params.each.with_index do |card, index|
-      filter_card = card.permit(:name, :quantity, :box_number)
-      new_card = MyCard.with_name(card[:name]).with_box_number(card[:box_number])
+      transaction_card = MyCard
+        .with_name(filter_transaction['name'])
+        .with_box_number(filter_transaction['box_number'])
 
-      if new_card.empty?
-        new_card = MyCard.new(name: card[:name],
-          quantity: card[:quantity],
-          box: card[:box_number]
-        )
-
-        if new_card.valid?
-          flash.now[:notice] << "#{index + 1}. Successfully added #{new_card.name}"
-
-          valid_cards << new_card
-        else
-          flash.now[:error] << "#{index + 1}. " + new_card.errors.full_messages.to_sentence
-        end
+      if transaction_card.empty?
+        transaction_card = MyCard.create_card(filter_transaction)
       else
-        flash.now[:error] <<
-          "#{index + 1}. You already have #{new_card.first.name} in box #{new_card.first.box} on the transaction tab"
+        transaction_card = transaction_card.make_transaction(filter_transaction)
       end
+
+      if !transaction_card.valid?
+        Rails.logger.warn("Transaction #{filter_transaction} failed because #{transaction_card.errors.full_messages.to_sentence}")
+        filter_transaction[:error] = transaction_card.errors.full_messages.to_sentence
+        status = :bad_request
+      end
+
+      transaction_failures << filter_transaction
     end
 
-    unless flash[:error].any?
-      valid_cards.each { |card| card.save }
-    end
-
-    render :index
+    render json: transaction_failures.to_json, status: status
+  rescue JSON::ParserError
+    Rails.logger.warn("Error failed to parse json params: #{params}")
+    return render :bad_request
   end
 end

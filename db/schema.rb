@@ -11,16 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170909230054) do
+ActiveRecord::Schema.define(version: 20171113012554) do
 
-  create_table "card_types", force: :cascade do |t|
+  create_table "magic_cards", force: :cascade do |t|
     t.string  "name"
     t.integer "cmc"
     t.string  "color"
+    t.string  "manaCost"
     t.string  "type"
     t.string  "rarity"
-    t.string  "set"
     t.string  "imageUrl"
+    t.integer "multiverseId"
   end
 
   create_table "my_cards", force: :cascade do |t|

@@ -1,15 +1,16 @@
 <div class="panel panel-body">
-  <form action="/transaction/add_cards" accept-charset="UTF-8" method="post">
-    <div class="container" id="add-cards-form">
-      <%= render partial: 'transaction/add_card_errors' %>
-      <div class="row">
-        <div class="col-8 h4">Name</div>
-        <div class="col-2 h4">Quantity</div>
-        <div class="col-1 h4">Box</div>
-        <div class="col-1 h4">Add</div>
-      </div>
+  <div class="container" id="add-cards-form">
+    <%= render partial: 'transaction/transaction_messages' %>
+    <div class="row">
+      <div class="col-8 h4">Name</div>
+      <div class="col-2 h4">Quantity</div>
+      <div class="col-1 h4">Box</div>
+      <div class="col-1 h4">Remove</div>
+    </div>
+    <div id="user-card-entries">
       <%= render partial: 'transaction/user_cards' %>
     </div>
-    <input class="btn btn-success float-right" type="submit">
-  </form>
+  </div>
+  <button class="btn btn-info m-2" type="button" onclick="addCardEntry()">+Add card entry</button>
+  <button class="btn btn-success float-right m-2" type="button" onclick="completeTransaction()">Submit</button>
 </div>
