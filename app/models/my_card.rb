@@ -2,6 +2,8 @@
 class MyCard < ActiveRecord::Base
   self.table_name = 'my_cards'
 
+  belongs_to :deck
+
   validates :name, presence: true
   validates :quantity, presence: true, numericality: {
     only_integer: true,

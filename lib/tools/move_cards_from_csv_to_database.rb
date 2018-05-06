@@ -6,7 +6,7 @@ NAME = 'name'.freeze
 QUANTITY = 'quantity'.freeze
 BOX_NUMBER_REGEX = /\d+/.freeze
 
-card_files = Dir.glob('/home/patrick/Documents/other/*).csv')
+card_files = Dir.glob('/home/patrick/Documents/other/myCsvCards/*).csv')
 card_files.each do |file_name|
   card_file = File.read(file_name)
   card_list = CSV.parse(card_file, headers: true)

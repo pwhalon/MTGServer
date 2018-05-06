@@ -7,7 +7,7 @@
     </tr>
   </thead>
   <tbody>
-    <% if @matching_cards %>
+    <% if @matching_cards.present? %>
       <% @matching_cards.each do |card| %>
         <tr>
           <td><%= card.quantity %> x </td>
@@ -15,6 +15,12 @@
           <td><%= card.box %></td>
         </tr>
       <% end %>
+    <% else %>
+      <tr>
+        <td>
+          No results
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>

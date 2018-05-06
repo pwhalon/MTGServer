@@ -1,13 +1,14 @@
-class CreateCardType < ActiveRecord::Migration
+class CreateMagicCard < ActiveRecord::Migration
   def change
-    create_table :card_types do |t|
+    create_table :magic_cards do |t|
       t.string :name
       t.integer :cmc
       t.string :color
+      t.string :manaCost
       t.string :type
       t.string :rarity
-      t.string :set
       t.string :imageUrl
+      t.integer :multiverseId
     end
   end
 end
