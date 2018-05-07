@@ -32,9 +32,7 @@ function completeTransaction() {
     const TRANSACTION_ENTRY = 'transaction_entry';
 
     for (var entry = 0; entry < numberOfEntries; entry++) {
-        console.log('here')
         if ($('#entry-' + entry).length > 0) {
-            console.log('agains')
             transactionEntry[TRANSACTION_ENTRY] = 'entry-' + entry;
             transactionEntry[NAME] = $('#' + NAME + '-' + entry).val();
             transactionEntry[QUANTITY] = $('#' + QUANTITY + '-' + entry).val();
