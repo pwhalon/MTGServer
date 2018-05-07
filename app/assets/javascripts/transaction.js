@@ -4,12 +4,12 @@ const errorMessageId = 'transaction-success-messages';
 var numberOfEntries = 1
 
 function addCardEntry() {
-    const addCardFormEntry = '<div class="row" id="entry-${numberOfEntries}"><div class="col-8 form-group">' +
-        '<input type="text" id="name-${numberOfEntries}" class="form-control name" required name="cards[][name]">' +
+    const addCardFormEntry = '<div class="row" id="entry-' + numberOfEntries + '"><div class="col-8 form-group">' +
+        '<input type="text" id="name-' + numberOfEntries + '" class="form-control name" required name="cards[][name]">' +
         '</div><div class="col-2 form-group">' +
-        '<input type="number" id="quantity-${numberOfEntries}" class="form-control quantity" required name="cards[][quantity]">' +
+        '<input type="number" id="quantity-' + numberOfEntries + '" class="form-control quantity" required name="cards[][quantity]">' +
         '</div><div class="col-1 form-group">' +
-        '<input type="number" id="box_number-${numberOfEntries}" class="form-control box_number" required name="cards[][box_number]">' +
+        '<input type="number" id="box_number-' + numberOfEntries + '" class="form-control box_number" required name="cards[][box_number]">' +
         '</div><div class="col-1 form-group">' +
         '<input type="button" class="btn btn-danger" onclick="removeCardEntry(this)" value="-">' +
         '</div></div>';
@@ -20,6 +20,7 @@ function addCardEntry() {
 
 function removeCardEntry(targetElement) {
     $(targetElement).parent().parent().remove()
+    numberOfEntries -= 1;
 }
 
 function completeTransaction() {
@@ -38,7 +39,7 @@ function completeTransaction() {
             transactionEntry[QUANTITY] = $('#' + QUANTITY + '-' + entry).val();
             transactionEntry[BOX_NUMBER] = $('#' + BOX_NUMBER + '-' + entry).val();
             transactionList.push(transactionEntry);
-            transactionEntry = {}
+            transactionEntry = {};
         }
     }
 
@@ -49,6 +50,7 @@ function completeTransaction() {
         success: function(a) {
             flash(successMessageId, 'success', 'All cards successfully added!');
             $('#' + userCardEntriesId).empty();
+            numberOfEntries = 1;
             addCardEntry();
         },
         error: function(response) {
