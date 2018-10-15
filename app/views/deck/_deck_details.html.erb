@@ -1,0 +1,10 @@
+<div class="tab-pane fade show <%= @decks.first == deck ? 'active' : '' %>" id="v-pills-<%= deck.id %>" role="tabpanel" aria-labelledby="v-pills-<%= deck.id %>-tab">
+  <div class="row">
+    <div class="col-11">
+      <%= render partial: 'deck/decklist', locals: { deck: deck } %>
+    </div>
+    <div class="1">
+      <%= deck.format %>
+    </div>
+  </div>
+</div>

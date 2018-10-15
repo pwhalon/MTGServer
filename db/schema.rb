@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180506180701) do
+ActiveRecord::Schema.define(version: 20180824023922) do
+
+  create_table "deck_cards", force: :cascade do |t|
+    t.integer "deck_id"
+    t.integer "card_id"
+    t.integer "quantity"
+  end
+
+  create_table "decks", force: :cascade do |t|
+    t.string "name"
+    t.string "format"
+  end
 
   create_table "magic_cards", force: :cascade do |t|
     t.string  "name"
@@ -28,7 +39,6 @@ ActiveRecord::Schema.define(version: 20180506180701) do
     t.string  "name"
     t.integer "quantity"
     t.integer "box"
-    t.integer "deck_id"
   end
 
 end

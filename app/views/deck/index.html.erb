@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="panel panel-body">
+    <div class="panel panel-heading">
+      <div class="row">
+        <div class="col-10">
+          <h3 class="text-center">Deck Center</h3>
+        </div>
+        <div class="col-1">
+          <a class="btn btn-success" href="/deck/new">New Deck</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-3">
+        <div class="tab-content">
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <% @decks.each do |deck| %>
+              <a class="nav-link <%= @decks.first == deck ? 'active' : '' %>" id="v-pills-<%= deck.id %>-tab" data-toggle="pill" href="#v-pills-<%= deck.id %>" role="tab" aria-controls="v-pills-<%= deck.id %>" aria-selected="true"><%= deck.name %></a>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-9">
+        <div class="tab-content">
+          <div class="tab-content" id="v-pills-tabContent">
+            <% @decks.each do |deck| %>
+              <%= render partial: 'deck/deck_details', locals: { deck: deck } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

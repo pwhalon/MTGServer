@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   get 'transaction/add_cards', to: 'transaction#index'
   post 'transaction/add_cards', to: 'transaction#add_cards'
 
+  get 'deck', to: 'deck#index'
+  get 'deck/index', to: 'deck#index'
+  get 'deck/new', to: 'deck#new'
+  post 'deck/create', to: 'deck#create'
+
   root 'magic#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

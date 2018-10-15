@@ -1,0 +1,27 @@
+<div class="panel panel-body">
+  <%= form_for @deck, url: { action: :create } do |form| %>
+    <div class="row">
+      <div class="col-1">
+        <%= form.label 'Name' %>
+      </div>
+      <div class="col-10">
+        <%= form.text_field :name, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-1">
+        <%= form.label 'Format' %>
+      </div>
+      <div class="col-10">
+        <%= form.text_field :format, class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-10">
+        <%= form.submit 'Create', class: 'btn btn-success form-control' %>
+      </div>
+    </div>
+  <% end %>
+</div>
