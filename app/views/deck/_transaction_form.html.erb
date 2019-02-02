@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <form id="deckCardSearch" class="deckCardSearch" action="deck/search_cards" mehtod="GET">
+    <div class="row">
+      <input type="hidden" name="deckId" value="<%= deck.id %>">
+      <div class="col-2">
+        <label class="col-form-label">Search: </label>
+      </div>
+      <div class="col-8">
+        <input type="text" class="form-control" id="cardSearch" name="name" placeholder="Card name.." />
+      </div>
+      <div class="col-1">
+        <input class="btn btn-primary" type="submit" value="Search" />
+      </div>
+    </div>
+  </form>
+  <div class="container-fluid" id="cardResults-<%= deck.id %>">
+  </div>
+  <div class="container-fluid" id="addCardsErrors-<%= deck.id %>">
+  </div>
+</div>

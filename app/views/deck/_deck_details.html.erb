@@ -1,10 +1,38 @@
 <div class="tab-pane fade show <%= @decks.first == deck ? 'active' : '' %>" id="v-pills-<%= deck.id %>" role="tabpanel" aria-labelledby="v-pills-<%= deck.id %>-tab">
-  <div class="row">
-    <div class="col-11">
-      <%= render partial: 'deck/decklist', locals: { deck: deck } %>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <button class="btn btn-success float-right" data-toggle="modal" data-target="#addCardsModal-<%= deck.id %>">Add Cards</button>
+      </div>
     </div>
-    <div class="1">
-      <%= deck.format %>
+
+    <div class="row alert alert-dark">
+      <div class="col-10">
+        <%= render partial: 'deck/decklist', locals: { deck: deck } %>
+      </div>
+      <div class="col-2">
+        Format: <%= deck.format %>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addCardsModal-<%= deck.id %>" tabindex="-1" role="dialog" aria-labelledby="addCardsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Cards</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render partial: 'deck/transaction_form', locals: { deck: deck } %>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" form="addCardsForm-<%= deck.id %>">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

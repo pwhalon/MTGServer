@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get 'deck/index', to: 'deck#index'
   get 'deck/new', to: 'deck#new'
   post 'deck/create', to: 'deck#create'
+  get 'deck/add_cards', to: 'deck#add_cards'
+  get 'deck/search_cards', to: 'deck#search_cards'
 
   root 'magic#index'
 

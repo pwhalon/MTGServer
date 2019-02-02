@@ -1,0 +1,5 @@
+$('#cardResults-<%= deck_id %>').empty();
+<% allowed_tags = ['table', 'th', 'tr', 'td', 'tbody', 'thead', 'form', 'input'] %>
+<% allowed_attributes = ['class', 'type', 'name', 'value', 'min', 'max', 'id', 'action', 'method'] %>
+$('#cardResults-<%= deck_id %>').append("<%= escape_javascript(sanitize((render partial: 'card_results', locals: { deck_id: deck_id, matching_cards: matching_cards }), tags: allowed_tags, attributes: allowed_attributes)) %>");
+addTransaction(<%= deck_id %>);

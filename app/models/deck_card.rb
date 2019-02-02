@@ -6,4 +6,11 @@ class DeckCard < ActiveRecord::Base
   has_many :decks
 
   has_many :my_cards, foreign_key: :id
+
+  validates :deck_id, presence: true
+  validates :card_id, presence: true
+  validates :quantity, presence: true, numericality: {
+    only_integer: true,
+    greater_than_or_equal_to: 0
+  }
 end

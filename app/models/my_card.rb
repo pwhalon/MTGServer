@@ -14,6 +14,7 @@ class MyCard < ActiveRecord::Base
   scope :with_box_number, ->(box_number) { where(box: box_number) }
   scope :with_name, ->(name) { where(name: name) }
   scope :having_quantity, ->(number) { where(quantity: number) }
+  scope :cards_in_use, -> (id) { DeckCard.where(card_id: id).joins(:my_cards) }
 
   class << self
     def create_card(params)

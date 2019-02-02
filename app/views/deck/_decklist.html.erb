@@ -1,2 +1,7 @@
-<% DeckHelper.deck_list(deck.id).each do |card| %>
+<% deck_list = DeckHelper.deck_list(deck.id) %>
+
+<% deck_list.each do |card_link| %>
+  <%= card_link.quantity %>x <%= DeckHelper.card_name(card_link.card_id) %> <br />
 <% end %>
+
+Count: <%= deck_list.map(&:quantity).sum %>
