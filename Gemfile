@@ -24,9 +24,9 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Gems for bootstrap
-gem 'bootstrap', '~> 4.0.0.beta'
-gem 'popper_js', '~> 1.11.1'
-gem 'autoprefixer-rails', '~> 7.1.3'
+gem 'bootstrap', '~> 4.2', '>= 4.2.1'
+gem 'popper_js', '~> 1.14', '>= 1.14.5'
+gem 'autoprefixer-rails', '~> 9.4', '>= 9.4.7'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
