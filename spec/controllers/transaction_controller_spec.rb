@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe TransactionController, type: :controller do
+  let!(:setup_magic_cards) do
+    (1..3).each { |iterator| MagicCard.create(name: "card#{iterator}") }
+  end
+
   describe '#add_cards' do
     context 'with correct parameters' do
       let(:user_cards) do

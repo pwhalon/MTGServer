@@ -1,3 +1,8 @@
+$(document).ready(function() {
+    setupAutocomplete('autocomplete-name');
+});
+
+
 const userCardEntriesId = 'user-card-entries';
 const successMessageId = 'transaction-success-messages';
 const errorMessageId = 'transaction-success-messages';
@@ -5,7 +10,7 @@ var numberOfEntries = 1
 
 function addCardEntry() {
     const addCardFormEntry = '<div class="row" id="entry-' + numberOfEntries + '"><div class="col-8 form-group">' +
-        '<input type="text" id="name-' + numberOfEntries + '" class="form-control name" required name="cards[][name]">' +
+        '<input type="text" id="name-' + numberOfEntries + '" class="form-control name autocomplete-name" required name="cards[][name]">' +
         '</div><div class="col-2 form-group">' +
         '<input type="number" id="quantity-' + numberOfEntries + '" class="form-control quantity" required name="cards[][quantity]">' +
         '</div><div class="col-1 form-group">' +

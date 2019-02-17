@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get 'deck/add_cards', to: 'deck#add_cards'
   get 'deck/search_cards', to: 'deck#search_cards'
 
+  get 'magic_card/names', to: 'magic_card#names'
+
   root 'magic#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -25,5 +25,7 @@ module ManaServer
 
     # Autoload lib/ folder including all subdirectories.
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+
+    config.autoload_paths += Dir["#{Rails.root}/lib/services"]
   end
 end

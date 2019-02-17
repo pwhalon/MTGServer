@@ -54,6 +54,7 @@ RSpec.describe DeckController, type: :controller do
 
   describe '#add_cards' do
     let!(:deck) { Deck.create(name: 'deck1', format: 'EDH') }
+    let!(:magic_card) { MagicCard.create(name: 'card1') }
     let!(:my_card) { MyCard.create(name: 'card1', quantity: 1, box: 1) }
 
     let(:card_form) do

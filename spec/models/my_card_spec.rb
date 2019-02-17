@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe MyCard, type: :model do
+  let!(:magic_cards) do
+    (1..5).each do |iterator|
+      MagicCard.create(name: "card#{iterator}")
+    end
+  end
+
   let!(:my_test_cards) do
     MyCard.create(name: 'card1', quantity: 4, box: 3)
     MyCard.create(name: 'card2', quantity: 3, box: 1)

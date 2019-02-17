@@ -6,6 +6,7 @@ RSpec.describe DeckCard do
   end
 
   let!(:setup_card) do
+    MagicCard.create(name: 'card1')
     MyCard.create(name: 'card1', box: 1, quantity: 1)
   end
 

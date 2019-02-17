@@ -1,10 +1,12 @@
+require 'validators/card_name_validator'
+
 # Model for the entries in the MyCards database comprising the Name, Quantity, and Box location.
 class MyCard < ActiveRecord::Base
   self.table_name = 'my_cards'
 
   has_many :decks
 
-  validates :name, presence: true
+  validates :name, presence: true, card_name: true
   validates :quantity, presence: true, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 0
