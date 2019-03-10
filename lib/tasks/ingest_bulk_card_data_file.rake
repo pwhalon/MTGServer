@@ -11,6 +11,7 @@ task :ingest_bulk_card_info => :environment do
   IMAGE_SIZE = 'small'.freeze
   MULTIVERSE_ID = 'multiverse_ids'.freeze
   PRICE = 'usd'.freeze
+  BASIC_LANDS = ['Swamp', 'Mountain', 'Island', 'Forest', 'Plains'].freeze
 
   Rails.application.eager_load!
 
@@ -23,6 +24,12 @@ task :ingest_bulk_card_info => :environment do
   card_list.each do |card|
     # Add the card parsed to the database.
     begin
+      next unless card[MULTIVERSE_ID].present?
+
+      next unless card[IMAGE_URL].try(:[], IMAGE_SIZE).present?
+
+      next if BASIC_LANDS.include?(card[NAME])
+
       existing_card = MagicCard.find_by(name: card[NAME])
 
       if existing_card.present?

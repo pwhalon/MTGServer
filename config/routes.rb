@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  get 'magic', to: 'magic#index'
-  get 'magic/index', to: 'magic#index'
-  get 'magic/search', to: 'magic#search'
+  get 'my_card', to: 'my_card#index'
+  get 'my_card/index', to: 'my_card#index'
+  get 'my_card/search', to: 'my_card#search'
+  get 'my_card/traders', to: 'my_card#traders'
 
   get 'transaction', to: 'transaction#index'
   get 'transaction/index', to: 'transaction#index'
@@ -17,7 +18,7 @@ Rails.application.routes.draw do
 
   get 'magic_card/names', to: 'magic_card#names'
 
-  root 'magic#index'
+  root 'my_card#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

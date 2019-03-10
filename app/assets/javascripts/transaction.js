@@ -2,7 +2,6 @@ $(document).ready(function() {
     setupAutocomplete('autocomplete-name');
 });
 
-
 const userCardEntriesId = 'user-card-entries';
 const successMessageId = 'transaction-success-messages';
 const errorMessageId = 'transaction-success-messages';
@@ -20,6 +19,7 @@ function addCardEntry() {
         '</div></div>';
 
     $('#' + userCardEntriesId).append(addCardFormEntry);
+    setupAutocomplete('autocomplete-name');
     numberOfEntries += 1;
 }
 

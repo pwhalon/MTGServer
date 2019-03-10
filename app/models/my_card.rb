@@ -4,6 +4,8 @@ require 'validators/card_name_validator'
 class MyCard < ActiveRecord::Base
   self.table_name = 'my_cards'
 
+  CARDS_FOR_TRADE = [-1, -2].freeze
+
   has_many :decks
 
   validates :name, presence: true, card_name: true
@@ -17,6 +19,7 @@ class MyCard < ActiveRecord::Base
   scope :with_name, ->(name) { where(name: name) }
   scope :having_quantity, ->(number) { where(quantity: number) }
   scope :cards_in_use, -> (id) { DeckCard.where(card_id: id).joins(:my_cards) }
+  scope :cards_for_trade, -> { MyCard.with_box_number(CARDS_FOR_TRADE) }
 
   class << self
     def create_card(params)

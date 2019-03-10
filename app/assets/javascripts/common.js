@@ -19,7 +19,7 @@ function setupAutocomplete(className) {
     cardNames = [];
 
     $.ajax({
-        url: 'magic_card/names',
+        url: '/magic_card/names',
         type: 'GET',
         success: function (data) {
             autoComplete(className, data);

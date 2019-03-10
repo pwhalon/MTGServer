@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe MagicController, type: :controller do
+RSpec.describe MyCardController, type: :controller do
   describe 'GET #search' do
     let!(:my_test_cards) do
       MyCard.create(name: 'card1', quantity: 4, box: 3)
