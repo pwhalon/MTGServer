@@ -1,7 +1,7 @@
 require 'json'
 
 desc 'Ingest all of the cards from the Scryfall bulk card data file'
-task :ingest_bulk_card_info => :environment do
+task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
   NAME = 'name'.freeze
   CMC = 'cmc'.freeze
   MANA_COST = 'mana_cost'.freeze
@@ -11,6 +11,11 @@ task :ingest_bulk_card_info => :environment do
   IMAGE_SIZE = 'small'.freeze
   MULTIVERSE_ID = 'multiverse_ids'.freeze
   PRICE = 'usd'.freeze
+  LANG = 'lang'.freeze
+  ENGLISH = 'en'.freeze
+  LAYOUT = 'layout'.freeze
+  TOKEN = 'token'.freeze
+  SET = 'set'.freeze
   BASIC_LANDS = ['Swamp', 'Mountain', 'Island', 'Forest', 'Plains'].freeze
 
   Rails.application.eager_load!
@@ -24,11 +29,35 @@ task :ingest_bulk_card_info => :environment do
   card_list.each do |card|
     # Add the card parsed to the database.
     begin
-      next unless card[MULTIVERSE_ID].present?
+      unless args.new_set && card[SET] == args.new_set
+        puts "Skipped due to non-new set #{args.new_set} does not have #{card[NAME]}"
+        next
+      end
 
-      next unless card[IMAGE_URL].try(:[], IMAGE_SIZE).present?
+      unless card[MULTIVERSE_ID].present?
+        puts "Skipped due to missing Multiverse ID: #{card[NAME]}"
+        next
+      end
 
-      next if BASIC_LANDS.include?(card[NAME])
+      unless card[IMAGE_URL].try(:[], IMAGE_SIZE).present?
+        puts "Skipped due to missing image: #{card[NAME]}"
+        next
+      end
+
+      if BASIC_LANDS.include?(card[NAME])
+        puts "Skipped due to basic land: #{card[NAME]}"
+        next
+      end
+
+      unless card[LANG] == ENGLISH
+        puts "Skipped due to non-english card: #{card[NAME]}"
+        next
+      end
+
+      if card[LAYOUT] == TOKEN
+        puts "Skipped due to token layout: #{card[NAME]}"
+        next
+      end
 
       existing_card = MagicCard.find_by(name: card[NAME])
 
@@ -45,6 +74,7 @@ task :ingest_bulk_card_info => :environment do
         p "Card entry updated for #{card[NAME]}"
       else
         new_card = MagicCard.create(
+          name: card[NAME],
           cmc: card[CMC],
           mana_cost: card[MANA_COST],
           rarity: card[RARITY],
@@ -54,10 +84,11 @@ task :ingest_bulk_card_info => :environment do
           price: card[PRICE]
         )
         if new_card.valid?
-          p "Card entry inserted for #{new_card.name}"
+          p "New Card entry inserted for #{new_card.name}"
           new_card.save
         else
-          p "WARNING: #{new_card.errors}"
+          p 'Error: '
+          p new_card.errors
         end
       end
     end
