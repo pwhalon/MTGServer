@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190212052731) do
+ActiveRecord::Schema.define(version: 20190703051851) do
 
-  create_table "deck_cards", force: :cascade do |t|
+  create_table "deck_entries", force: :cascade do |t|
     t.integer "deck_id"
-    t.integer "card_id"
+    t.integer "my_card_id"
     t.integer "quantity"
   end
 
@@ -39,6 +39,6 @@ ActiveRecord::Schema.define(version: 20190212052731) do
     t.string  "name"
     t.integer "quantity"
     t.integer "box"
+    t.integer "magic_card_id"
   end
-
 end

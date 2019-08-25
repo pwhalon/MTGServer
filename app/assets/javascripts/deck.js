@@ -1,8 +1,25 @@
 $(document).ready(function() {
     searchCards();
-    setupAutocomplete('autocomplete-name');
 });
 
+function deckAutocomplete() {
+    var cardNames = [];
+    const autocompleteClass = 'autocomplete-name';
+
+    $.ajax({
+        url: '/my_cards/names',
+        type: 'GET',
+        success: function (data) {
+            inputFields.autocomplete({
+                source: sourceNames,
+                minLength: 2
+            });
+        },
+        error: function () {
+            cardNames = [];
+        }
+    });
+}
 
 function searchCards () {
     $('.deckCardSearch').submit(function (e) {
@@ -27,7 +44,7 @@ function searchCards () {
 }
 
 function addTransaction (deckId) {
-    $(`#addCardsForm-${deckId}`).submit(function (e) {
+    $(`#moveCardsForm-${deckId}`).submit(function (e) {
         e.preventDefault();
 
         const form = $(this);
@@ -39,12 +56,30 @@ function addTransaction (deckId) {
             url: url,
             data: form.serialize(),
             success: function(data) {
-                $(`#addCardsModal-${deckId}`).modal('toggle');
+                $(`#moveCardsModal-${deckId}`).modal('toggle');
             },
             error: function(event, error, status) {
-                $(`#addCardsErrors-${deckId}`).empty();
-                $(`#addCardsErrors-${deckId}`).html(`<div class='alert alert-danger alert-dismissable'>${event.responseJSON["errors"]}</div>`);
+                $(`#moveCardsErrors-${deckId}`).empty();
+                $(`#moveCardsErrors-${deckId}`).html(`<div class='alert alert-danger alert-dismissable'>${event.responseJSON["errors"]}</div>`);
             }
         });
     });
+}
+
+function showCardDetails(box, rarity, mana_cost, card_type, multiverse_id, image_url, deck_id) {
+    $(`#cardPreview-${deck_id}`).html(
+        `<div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-body">
+                <p class="card-text">Card Type: ${card_type}</p>
+                <p class="card-text">Mana Cost: ${mana_cost}</p>
+                <p class="card-text">Rarity: ${rarity}</p>
+                <p class="card-text">Multiverse Id: ${multiverse_id}</p>
+                <p class="card-text">Box Location: ${box}</p>
+                <img class="full-height"
+                    src="<%= magic_card.image_url %>_dos_prevention"
+                    alt="Image for <%= card.name%> not available"
+                    onerror="this.src='/assets/magic_card_back.jpg'">
+            </div>
+        </div>`
+    )
 }

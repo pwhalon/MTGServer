@@ -74,8 +74,8 @@ RSpec.describe DeckController, type: :controller do
           get :add_cards,
               cards: card_form
 
-          expect(DeckCard.all.count).to eq(card_form.count)
-          expect(DeckCard.all.pluck(:card_id)).to eq([my_card.id])
+          expect(DeckEntry.all.count).to eq(card_form.count)
+          expect(DeckEntry.all.pluck(:my_card_id)).to eq([my_card.id])
         end
 
         context 'when there are multiple cards to add' do
@@ -87,8 +87,8 @@ RSpec.describe DeckController, type: :controller do
             get :add_cards,
                 cards: card_form
 
-            expect(DeckCard.all.count).to eq(card_form.count)
-            expect(DeckCard.all.pluck(:card_id)).to eq([my_card.id, another_card.id])
+            expect(DeckEntry.all.count).to eq(card_form.count)
+            expect(DeckEntry.all.pluck(:my_card_id)).to eq([my_card.id, another_card.id])
             expect(MyCard.cards_in_use(another_card.id).pluck(:quantity)).to eq([1])
           end
         end
@@ -104,7 +104,7 @@ RSpec.describe DeckController, type: :controller do
           expect(response.status).to be 400
           expect(JSON.parse(response.body)['errors'].first).to match(/is greater than that cards available quantity/)
 
-          expect(DeckCard.all.count).to eq(0)
+          expect(DeckEntry.all.count).to eq(0)
         end
       end
 
@@ -118,7 +118,7 @@ RSpec.describe DeckController, type: :controller do
           expect(response.status).to be 400
           expect(JSON.parse(response.body)['errors'].first).to match(/is not a valid quantity to add/)
 
-          expect(DeckCard.all.count).to eq(0)
+          expect(DeckEntry.all.count).to eq(0)
         end
       end
 
@@ -133,7 +133,7 @@ RSpec.describe DeckController, type: :controller do
             expect(response.status).to be 400
             expect(JSON.parse(response.body)['errors'].first).to match(/Deck can't be blank/)
 
-            expect(DeckCard.all.count).to eq(0)
+            expect(DeckEntry.all.count).to eq(0)
           end
         end
       end

@@ -3,11 +3,15 @@ module DeckHelper
     Deck.cards(deck_id)
   end
 
-  def self.card_name(card_id)
-    MyCard.find(card_id).name
+  def self.my_card(card_id)
+    MyCard.find(card_id)
 
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.error("Failed to find card #{card_id} exception #{e}")
     'N/A'
+  end
+
+  def self.magic_card(card_name)
+    MagicCard.find_by(name: card_name).first
   end
 end

@@ -1,7 +1,39 @@
-<% deck_list = DeckHelper.deck_list(deck.id) %>
+<% deck_list = deck.deck_entries %>
 
-<% deck_list.each do |card_link| %>
-  <%= card_link.quantity %>x <%= DeckHelper.card_name(card_link.card_id) %> <br />
-<% end %>
+<h3>Format: <%= deck.format %></h3>
 
-Count: <%= deck_list.map(&:quantity).sum %>
+<div class="container-fluid">
+  <div class="row">
+    <% deck_list.in_groups(2, false).each do |card_groups| %>
+      <div class="col-4">
+        <% card_groups.each do |card_link| %>
+          <% my_card = card_link.my_card %>
+          <% magic_card = my_card.magic_card %>
+          <%= card_link.quantity %>x <a href="" onmouseover='showCardDetails(<%= my_card.box %>, "<%= magic_card.rarity %>", "<%= magic_card.mana_cost %>", "<%= magic_card.card_type %>", <%= magic_card.multiverse_id %>, "<%= magic_card.image_url %>_dos_prevention", <%= deck.id %>)'><%= my_card.name %></a>
+          <br />
+        <% end %>
+      </div>
+    <% end %>
+
+
+    <div class="col-4" class="full-height">
+      <div id="cardPreview-<%= deck.id %>">
+        <div class="card text-white bg-dark mb-3">
+          <div class="card-body">
+            <p class="card-text">Card Type: </p>
+            <p class="card-text">Mana Cost: </p>
+            <p class="card-text">Rarity: </p>
+            <p class="card-text">Multiverse Id: </p>
+            <p class="card-text">Box Location: </p>
+            <img class="img-responsive"
+              src="_dos_prevention"
+              alt="Image not available"
+              onerror="this.src='/assets/magic_card_back.jpg'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  Count: <%= deck_list.map(&:quantity).sum %>
+</div>

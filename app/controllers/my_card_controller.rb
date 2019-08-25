@@ -13,4 +13,8 @@ class MyCardController < ApplicationController
   def traders
     @traders = MyCard.cards_for_trade
   end
+
+  def names
+    redner json: MyCard.all.pluck(:name)
+  end
 end

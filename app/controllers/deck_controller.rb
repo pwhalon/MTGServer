@@ -58,13 +58,15 @@ class DeckController < ApplicationController
         next
       end
 
-      deck_card = DeckCard.find_or_create_by(deck_id: card['deckId'], card_id: my_card.id)
+      deck_card = DeckEntry.find_or_create_by(deck_id: card['deckId'], my_card_id: my_card.id)
 
       original_quantity = deck_card.quantity || 0
 
       deck_card.update(quantity: quantity + original_quantity)
 
-      if deck_card.valid?
+      if deck_card.quantity.zero?
+        deck_card.destroy!
+      elsif deck_card.valid?
         deck_card.save!
       else
         errors << deck_card.errors.full_messages.to_sentence

@@ -12,14 +12,14 @@ RSpec.describe DeckHelper, type: :helper do
   end
 
   let!(:setup_deck_cards) do
-    DeckCard.create(card_id: 1, deck_id: 1, quantity: 1)
-    DeckCard.create(card_id: 3, deck_id: 1, quantity: 2)
+    DeckEntry.create(my_card_id: 1, deck_id: 1, quantity: 1)
+    DeckEntry.create(my_card_id: 3, deck_id: 1, quantity: 2)
   end
 
   describe '#deck_list' do
     context 'when there are cards that are on the deck list' do
       it 'returns those cards in a list' do
-        expect(DeckHelper.deck_list(setup_deck.id).pluck(:id)).to eq(DeckCard.where(deck_id: setup_deck.id).pluck(:id))
+        expect(DeckHelper.deck_list(setup_deck.id).pluck(:id)).to eq(DeckEntry.where(deck_id: setup_deck.id).pluck(:id))
       end
     end
 

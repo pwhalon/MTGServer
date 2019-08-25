@@ -1,11 +1,11 @@
-<form id="addCardsForm-<%= deck_id %>" action="deck/add_cards" method="GET">
+<form id="moveCardsForm-<%= deck_id %>" action="deck/add_cards" method="GET">
   <table class="table table-dark table-responsive">
     <thead>
       <tr>
         <th class="column-width-40">Name</th>
         <th class="column-width-20">Box</th>
         <th class="column-width-20">Quantity</th>
-        <th class="column-width-20">Add Cards</th>
+        <th class="column-width-20">Add/Remove</th>
       </tr>
     </thead>
 
@@ -15,7 +15,7 @@
           <td><%= result.name %></td>
           <td><%= result.box %></td>
           <td><%= result.quantity %></td>
-          <td><input class="form-control" name="cards[]quantity" max="<%= result.quantity %>" type="number" min="0" value="0"></td>
+          <td><input class="form-control" name="cards[]quantity" max="<%= result.quantity %>" type="number" min="<%= -result.quantity %>" value="0"></td>
           <td><input type="hidden" name="cards[]name" value="<%= result.name %>"></td>
           <td><input type="hidden" name="cards[]box" value="<%= result.box %>"></td>
           <td><input type="hidden" name="cards[]deckId" value="<%= deck_id %>"></td>

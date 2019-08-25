@@ -6,7 +6,10 @@ class MyCard < ActiveRecord::Base
 
   CARDS_FOR_TRADE = [-1, -2].freeze
 
-  has_many :decks
+  has_many :deck_entries
+  has_many :decks, through: :deck_entries
+
+  has_one :magic_card
 
   validates :name, presence: true, card_name: true
   validates :quantity, presence: true, numericality: {
@@ -18,8 +21,12 @@ class MyCard < ActiveRecord::Base
   scope :with_box_number, ->(box_number) { where(box: box_number) }
   scope :with_name, ->(name) { where(name: name) }
   scope :having_quantity, ->(number) { where(quantity: number) }
-  scope :cards_in_use, -> (id) { DeckCard.where(card_id: id).joins(:my_cards) }
+  scope :cards_in_use, -> (id) { DeckEntry.where(my_card_id: id) }
   scope :cards_for_trade, -> { MyCard.with_box_number(CARDS_FOR_TRADE) }
+
+  def magic_card
+    MagicCard.find_by(name: self.name)
+  end
 
   class << self
     def create_card(params)

@@ -14,7 +14,7 @@
             <br />
           <% end %>
           <a href=<%= "#{MyCardController::GATHERER_MULTIVERSE_URL}#{magic_card.multiverse_id}" %>>
-            <img class="img-responsive" src="<%= magic_card.image_url %>", alt="Image for <%= card.name%> not available" onerror="this.src='/assets/magic_card_back.jpg'">
+            <img class="img-responsive" src="<%= magic_card.image_url %>_dos_prevention", alt="Image for <%= card.name%> not available" onerror="this.src='/assets/magic_card_back.jpg'">
           </a>
         <% end %>
       </div>

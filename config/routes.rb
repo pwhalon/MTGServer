@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'my_card/index', to: 'my_card#index'
   get 'my_card/search', to: 'my_card#search'
   get 'my_card/traders', to: 'my_card#traders'
+  get 'my_card/names', to: 'my_card#names'
 
   get 'transaction', to: 'transaction#index'
   get 'transaction/index', to: 'transaction#index'
