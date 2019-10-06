@@ -9,7 +9,7 @@
         <% card_groups.each do |card_link| %>
           <% my_card = card_link.my_card %>
           <% magic_card = my_card.magic_card %>
-          <%= card_link.quantity %>x <a href="" onmouseover='showCardDetails(<%= my_card.box %>, "<%= magic_card.rarity %>", "<%= magic_card.mana_cost %>", "<%= magic_card.card_type %>", <%= magic_card.multiverse_id %>, "<%= magic_card.image_url %>_dos_prevention", <%= deck.id %>)'><%= my_card.name %></a>
+          <%= card_link.quantity %>x <a href="" onmouseover='showCardDetails(<%= my_card.box %>, "<%= magic_card.rarity %>", "<%= magic_card.mana_cost %>", "<%= magic_card.card_type %>", <%= magic_card.multiverse_id %>, "_dos_prevention_<%= magic_card.image_url %>_dos_prevention", <%= deck.id %>)'><%= my_card.name %></a>
           <br />
         <% end %>
       </div>
@@ -26,7 +26,7 @@
             <p class="card-text">Multiverse Id: </p>
             <p class="card-text">Box Location: </p>
             <img class="img-responsive"
-              src="_dos_prevention"
+              src="_dos_prevention_"
               alt="Image not available"
               onerror="this.src='/assets/magic_card_back.jpg'">
           </div>

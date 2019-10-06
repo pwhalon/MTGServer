@@ -18,3 +18,6 @@
 
 # Ignore rspec example.txt autogeneration
 /spec/examples.txt
+
+# Ignore lib assets because the download for ingestions script is there
+/lib/assets/scryfall-default-cards.json

@@ -1,4 +1,5 @@
 require 'json'
+require 'open-uri'
 
 desc 'Ingest all of the cards from the Scryfall bulk card data file'
 task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
@@ -17,10 +18,17 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
   TOKEN = 'token'.freeze
   SET = 'set'.freeze
   BASIC_LANDS = ['Swamp', 'Mountain', 'Island', 'Forest', 'Plains'].freeze
+  FILE_DUMP_LOCATION = Rails.root.join('lib', 'assets', 'scryfall-default-cards.json').to_s
 
   Rails.application.eager_load!
 
-  json_card_list = File.read('/home/patrick/Documents/other/totalCards/scryfall-default-cards.json')
+  download = open('https://archive.scryfall.com/json/scryfall-default-cards.json')
+
+  IO.copy_stream(download, FILE_DUMP_LOCATION)
+
+  json_card_list = File.read(FILE_DUMP_LOCATION)
+
+  fail 'json_card_list was not downloaded correctly' if json_card_list.nil?
 
   p "-- Starting load all cards process --"
 

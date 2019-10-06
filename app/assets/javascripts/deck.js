@@ -76,7 +76,7 @@ function showCardDetails(box, rarity, mana_cost, card_type, multiverse_id, image
                 <p class="card-text">Multiverse Id: ${multiverse_id}</p>
                 <p class="card-text">Box Location: ${box}</p>
                 <img class="full-height"
-                    src="<%= magic_card.image_url %>_dos_prevention"
+                    src="_dos_prevention_<%= magic_card.image_url %>"
                     alt="Image for <%= card.name%> not available"
                     onerror="this.src='/assets/magic_card_back.jpg'">
             </div>
