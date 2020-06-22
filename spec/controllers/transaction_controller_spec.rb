@@ -5,7 +5,7 @@ RSpec.describe TransactionController, type: :controller do
     (1..3).each { |iterator| MagicCard.create(name: "card#{iterator}") }
   end
 
-  describe '#add_cards' do
+  describe '#transaction' do
     context 'with correct parameters' do
       let(:user_cards) do
         [
@@ -15,13 +15,9 @@ RSpec.describe TransactionController, type: :controller do
         ].to_json
       end
 
-      let(:duplicate_card_error) do
-        '1. You already have card1 in box 1 on the transaction tab'
-      end
-
       context 'when the cards do not already exist' do
         it 'create and saves the cards' do
-          post :add_cards, 'list' => user_cards
+          post :transaction, 'list' => user_cards
 
           expect(MyCard.all.pluck(:name)).to eq(['card1', 'card2', 'card3'])
           expect(MyCard.with_box_number(1).count).to eq(2)
@@ -33,7 +29,7 @@ RSpec.describe TransactionController, type: :controller do
         it 'should increase the quantity of the card' do
           MyCard.new(name: 'card1', quantity: 100, box: 1).save
 
-          post :add_cards, list: user_cards
+          post :transaction, list: user_cards
 
           expect(MyCard.all.pluck(:name)).to eq(['card1', 'card2', 'card3'])
           expect(MyCard.with_name('card1').pluck(:quantity).first).to eq(101)
@@ -65,7 +61,7 @@ RSpec.describe TransactionController, type: :controller do
 
       context 'with invalid quantity' do
         it 'should flash an error ' do
-          post :add_cards, 'list' => invalid_user_card
+          post :transaction, 'list' => invalid_user_card
 
           expect(response).to be_bad_request
           expect(JSON.parse(response.body).first['error']).to eq(quantity_must_be_number_message)
@@ -74,7 +70,7 @@ RSpec.describe TransactionController, type: :controller do
 
       context 'with multiple invalid fields' do
         it 'should flash an error ' do
-          post :add_cards, 'list' => multiple_invalid_user_cards
+          post :transaction, 'list' => multiple_invalid_user_cards
 
           expect(response).to be_bad_request
           expect(JSON.parse(response.body).map{ |transaction| transaction['error'] }).to eq(multiple_error_messages)

@@ -7,8 +7,8 @@ Rails.application.routes.draw do
 
   get 'transaction', to: 'transaction#index'
   get 'transaction/index', to: 'transaction#index'
-  get 'transaction/add_cards', to: 'transaction#index'
-  post 'transaction/add_cards', to: 'transaction#add_cards'
+  get 'transaction/transaction', to: 'transaction#index'
+  post 'transaction/transaction', to: 'transaction#transaction'
 
   get 'deck', to: 'deck#index'
   get 'deck/index', to: 'deck#index'

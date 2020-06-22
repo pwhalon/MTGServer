@@ -49,7 +49,7 @@ function completeTransaction() {
     }
 
     $.ajax({
-        url: "/transaction/add_cards",
+        url: "/transaction/transaction",
         type: "POST",
         data: { list: JSON.stringify(transactionList) },
         success: function(a) {

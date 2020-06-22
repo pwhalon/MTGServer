@@ -27,31 +27,4 @@ class MyCard < ActiveRecord::Base
   def magic_card
     MagicCard.find_by(name: self.name)
   end
-
-  class << self
-    def create_card(params)
-      new_card = MyCard.new(name: params['name'],
-        quantity: params['quantity'],
-        box: params['box_number']
-      )
-
-      new_card.save if new_card.valid?
-
-      return new_card
-    end
-
-    def make_transaction(transaction_params)
-      card = self.first
-
-      card.quantity = Integer(transaction_params['quantity']) + card.quantity
-
-      card.save if card.valid?
-
-      return card
-    rescue ArgumentError
-      card = self.first
-      card.quantity = nil
-      return card
-    end
-  end
 end
