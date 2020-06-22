@@ -26,7 +26,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Gems for bootstrap
-gem 'bootstrap', '~> 4.2', '>= 4.2.1'
+gem 'bootstrap', '~> 4.3'
 gem 'popper_js', '~> 1.14', '>= 1.14.5'
 gem 'autoprefixer-rails', '~> 9.4', '>= 9.4.7'
 
