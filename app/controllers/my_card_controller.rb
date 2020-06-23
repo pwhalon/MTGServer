@@ -7,6 +7,11 @@ class MyCardController < ApplicationController
   def search
     params.permit(:magic_card_search)
     @matching_cards = MyCard.with_name(params[:magic_card_search])
+
+    if @matching_cards.present?
+      @deck_entries = @matching_cards.map { |card| MyCard.cards_in_use(card.id) }
+    end
+
     render :index
   end
 
