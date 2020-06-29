@@ -15,6 +15,18 @@ class DeckController < ApplicationController
     return redirect_to action: :new
   end
 
+  def delete
+    deck_to_delete = Deck.find_by(id: params['id'])
+
+    if deck_to_delete.blank?
+      flash[:error] = 'Invalid deck id. Unable to delete non-existent deck.'
+      return
+    else
+      flash[:success] = 'Success! Deleted deck and associated deck entries.'
+      deck_to_delete.destroy
+    end
+  end
+
   def search_cards
     matching_cards = MyCard.with_name(params['name'])
 

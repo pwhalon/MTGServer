@@ -26,6 +26,36 @@ RSpec.describe DeckController, type: :controller do
     end
   end
 
+  describe '#delete' do
+    let!(:create_deck) do
+      d1 = Deck.create(name: 'deck1', format: 'EDH')
+
+      c1 = MyCard.create(name: 'card1')
+
+      DeckEntry.create(my_card_id: c1, deck_id: d1)
+    end
+
+    context 'with a non-existent deck id' do
+      it 'sets the flash error and returns' do
+        get :delete, 'id' => 100
+
+        expect(flash[:error]).to eq('Invalid deck id. Unable to delete non-existent deck.')
+      end
+    end
+
+    context 'when the deckid exists' do
+      it 'deletes the deck and associated deck entries' do
+        get :delete, 'id' => 1
+
+        expect(flash[:success]).to eq('Success! Deleted deck and associated deck entries.')
+
+        expect(Deck.all).to be_empty
+
+        expect(DeckEntry.all).to be_empty
+      end
+    end
+  end
+
   describe '#create' do
     context 'when the form is correct' do
       let(:deck1) { 'deck1' }

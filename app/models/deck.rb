@@ -11,7 +11,7 @@ class Deck < ActiveRecord::Base
     message: "Error format must be one of #{MTG_FORMATS}"
   }
 
-  has_many :deck_entries
+  has_many :deck_entries, dependent: :destroy
   has_many :my_cards, through: :deck_entries
 
   scope :cards, ->(id) { DeckEntry.joins('INNER JOIN decks ON deck_entries.deck_id = decks.id').where(deck_id: id) }
