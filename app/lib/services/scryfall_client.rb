@@ -9,6 +9,7 @@ class ScryfallClient
 
   SCRYFALL_URI = 'https://api.scryfall.com'.freeze
   LIST_CARDS_API = '/cards'.freeze
+  GET_MULTIVERSE_CARD_API = '/cards/multiverse/'.freeze
 
   # Will likely never need to use as there is a daily dump of the current cards in Scryfalls
   # database. Can use that instead of making a bunch of network calls.
@@ -36,6 +37,12 @@ class ScryfallClient
 
     puts "All calls successful\n"
     cards_list
+  end
+
+  def get_card_data(multiverse_id)
+    uri = URI(SCRYFALL_URI + GET_MULTIVERSE_CARD_API + multiverse_id)
+
+    get(uri)
   end
 
   private
