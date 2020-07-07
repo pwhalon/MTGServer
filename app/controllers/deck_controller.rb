@@ -1,5 +1,9 @@
 class DeckController < ApplicationController
+  ACTIVE = 'active'.freeze
+
   def index
+    @active_deck = (params[ACTIVE] || -1)
+
     @decks = Deck.all.to_a
   end
 

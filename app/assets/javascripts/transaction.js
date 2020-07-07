@@ -2,12 +2,13 @@ $(document).ready(function() {
     setupAutocomplete('autocomplete-name');
 });
 
-const userCardEntriesId = 'user-card-entries';
 const successMessageId = 'transaction-success-messages';
 const errorMessageId = 'transaction-success-messages';
 var numberOfEntries = 1
 
 function addCardEntry() {
+    const userCardEntriesId = 'user-card-entries';
+
     const addCardFormEntry = '<div class="row" id="entry-' + numberOfEntries + '"><div class="col-8 form-group">' +
         '<input type="text" id="name-' + numberOfEntries + '" class="form-control name autocomplete-name" required name="cards[][name]">' +
         '</div><div class="col-2 form-group">' +
@@ -36,6 +37,7 @@ function completeTransaction() {
     const QUANTITY = 'quantity';
     const BOX_NUMBER = 'box_number';
     const TRANSACTION_ENTRY = 'transaction_entry';
+    const userCardEntriesId = 'user-card-entries';
 
     for (var entry = 0; entry < numberOfEntries; entry++) {
         if ($('#entry-' + entry).length > 0) {

@@ -1,4 +1,4 @@
-<a class="nav-link <%= @decks.first == deck ? 'active' : '' %>" id="v-pills-<%= deck.id %>-tab" data-toggle="pill" href="#v-pills-<%= deck.id %>" role="tab" aria-controls="v-pills-<%= deck.id %>" aria-selected="true">
+<a class="nav-link <%= @active_deck.to_i == deck.id ? 'active' : '' %>" id="v-pills-<%= deck.id %>-tab" data-toggle="pill" href="#v-pills-<%= deck.id %>" role="tab" aria-controls="v-pills-<%= deck.id %>" aria-selected="true" onclick="setActiveDeck(<%= deck.id %>)">
   <%= deck.name %>
 
   <button class="btn btn-sm btn-danger float-right" data-toggle="modal" data-target="#confirmationModal-<%= deck.id %>">

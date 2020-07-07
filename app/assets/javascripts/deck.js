@@ -1,6 +1,15 @@
 $(document).ready(function() {
     searchCards();
+    ACTIVE_URL = new URL(document.URL);
 });
+
+var ACTIVE_URL;
+var ACTIVE = "active";
+
+function setActiveDeck(deckId) {
+    ACTIVE_URL.searchParams.set(ACTIVE, deckId)
+    window.history.pushState({ ACTIVE : deckId }, "Updated active deck", ACTIVE_URL.search);
+}
 
 function deckAutocomplete() {
     var cardNames = [];
