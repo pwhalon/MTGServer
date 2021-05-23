@@ -1,8 +1,7 @@
 function flash(id, type, message) {
-    var flash_element = '<div class="alert alert-' + type + ' alert-dismissable">' +
+    var flash_element = '<div class="alert alert-' + type + ' alert-dismissable" role="alert">' +
     message +
-    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-    '<span aria-hidden="true">&times;</span></button></div>';
+    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">';
     $('#' + id).html(flash_element);
 }
 

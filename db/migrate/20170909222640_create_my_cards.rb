@@ -4,7 +4,6 @@ class CreateMyCards < ActiveRecord::Migration
       t.string :name
       t.integer :quantity
       t.integer :box
-      t.timestamps
     end
   end
 end

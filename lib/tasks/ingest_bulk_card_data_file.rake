@@ -11,7 +11,9 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
   IMAGE_URL = 'image_uris'.freeze
   IMAGE_SIZE = 'small'.freeze
   card_image_url = nil
+  card_back_image_url = nil
   card_type = nil
+  CARD_FACES = 'card_faces'.freeze
   MULTIVERSE_ID = 'multiverse_ids'.freeze
   CARD_FACES = 'card_faces'.freeze
   PRICES = 'prices'.freeze
@@ -36,30 +38,42 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
 
   fail 'json_card_list was not downloaded correctly' if json_card_list.nil?
 
-  p "-- Starting load all cards process --"
+  puts "-- Starting load all cards process --"
 
   card_list = JSON.parse(json_card_list)
 
   card_list.each do |card|
     # Add the card parsed to the database.
     begin
-      unless args.new_set && card[SET] == args.new_set
-        puts "Skipped due to non-new set #{args.new_set} does not have #{card[NAME]}"
+      if args.new_set.present? && card[SET] != args.new_set
+        puts "Skipped due to non-new set. #{args.new_set} does not have #{card[NAME]}"
         next
       end
 
-      unless card[MULTIVERSE_ID].present?
+      if card[MULTIVERSE_ID].blank?
         puts "Skipped due to missing Multiverse ID: #{card[NAME]}"
         next
       end
 
-      if card[IMAGE_URL].try(:[], IMAGE_SIZE).present?
-        card_image_url = card[IMAGE_URL][IMAGE_SIZE]
-      elsif card[CARD_FACES].present?
-        card_image_url = card[CARD_FACES].first[IMAGE_URL][IMAGE_SIZE]
+      if card[CARD_FACES].blank?
+        if card[IMAGE_URL].try(:[], IMAGE_SIZE).blank?
+          puts "Skipped due to missing image: #{card[NAME]}"
+          next
+        else
+          card_image_url = card[IMAGE_URL].try(:[], IMAGE_SIZE)
+        end
       else
-        puts "Skipped due to missing image: #{card[NAME]}"
-        next
+        if card[CARD_FACES].first.try(:[], IMAGE_URL).try(:[], IMAGE_SIZE).blank? ||
+          card[CARD_FACES].last.try(:[], IMAGE_URL).try(:[], IMAGE_SIZE).blank?
+
+          puts "Skipped due to missing image (front/back): #{card[NAME]}"
+          puts "\tFront present?: #{card[CARD_FACES].first.try(:[], IMAGE_URL).try(:[], IMAGE_SIZE).present?}"
+          puts "\tBack present?: #{card[CARD_FACES].last.try(:[], IMAGE_URL).try(:[], IMAGE_SIZE).present?}"
+          next
+        else
+          card_image_url = card[CARD_FACES].first.try(:[], IMAGE_URL).try(:[], IMAGE_SIZE)
+          card_back_image_url = card[CARD_FACES].last.try(:[], IMAGE_URL).try(:[], IMAGE_SIZE)
+        end
       end
 
       if card[CARD_TYPE].present?
@@ -76,7 +90,7 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
         next
       end
 
-      unless card[LANG] == ENGLISH
+      if card[LANG] != ENGLISH
         puts "Skipped due to non-english card: #{card[NAME]}"
         next
       end
@@ -93,12 +107,12 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
           cmc: card[CMC],
           mana_cost: card[MANA_COST],
           rarity: card[RARITY],
-          card_type: card[CARD_TYPE],
+          card_type: card_type,
           multiverse_id: card[MULTIVERSE_ID].first,
           image_url: card_image_url,
-          price: card.dig(PRICES, USD)
+          image_back: card_back_image_url
         )
-        p "Card entry updated for #{card[NAME]}"
+        puts "Card entry updated for #{card[NAME]}"
       else
         new_card = MagicCard.create(
           name: card[NAME],
@@ -108,18 +122,18 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
           card_type: card[CARD_TYPE],
           multiverse_id: card[MULTIVERSE_ID].first,
           image_url: card_image_url,
-          price: card.dig(PRICES, USD)
+          image_back: card_back_image_url
         )
         if new_card.valid?
-          p "New Card entry inserted for #{new_card.name}"
+          puts "New Card entry inserted for #{new_card.name}"
           new_card.save
         else
-          p 'Error: '
+          puts 'Error: '
           p new_card.errors
         end
       end
     end
   end
 
-  p "-- End of Magic Card list --"
+  puts "-- End of Magic Card list --"
 end

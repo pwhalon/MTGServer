@@ -2,14 +2,14 @@
   <div class="alert alert-success alert-dismissable">
     <%= flash[:success] %>
 
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
     </button>
   </div>
 <% else %>
   <div class="alert alert-danger alert-dismissable">
     <%= flash[:error] %>
 
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
     </button>
   </div>
 <% end %>

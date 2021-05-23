@@ -11,6 +11,7 @@ class ScryfallClient
   LIST_CARDS_API = '/cards'.freeze
   GET_MULTIVERSE_CARD_API = '/cards/multiverse/'.freeze
   BULK_CARD_URL_API = '/bulk-data'.freeze
+  SEARCH_CARDS_API = '/cards/search/'.freeze
 
   # Will likely never need to use as there is a daily dump of the current cards in Scryfalls
   # database. Can use that instead of making a bunch of network calls.
@@ -62,7 +63,47 @@ class ScryfallClient
     end
   end
 
+  def get_all_prints(name)
+    initial_page = 0
+    card_list = []
+
+    Rails.logger.info "Initial get_all_prints call\n"
+    cards_response = get_cards(name, initial_page)
+
+    return card_list if cards_response.blank?
+
+    card_list += cards_response['data']
+
+    while cards_response['has_more'] == true
+      Rails.logger.info "More to get making call to Scryfall page: #{cards_response.fetch('next_page')}\n"
+
+      cards_response = get(URI(cards_response.fetch('next_page')))
+      card_list += cards_response['data']
+
+      # Per Scryfall request no more than 10 requests per second on average.
+      Rails.logger.info "Call successful sleeping before next request\n"
+      sleep(0.5)
+    end
+
+    Rails.logger.info "All calls successful\n"
+    card_list
+  end
+
   private
+
+  def get_cards(name, page)
+    params = {
+      q: name,
+      unique: 'prints',
+      page: page
+    }
+
+    uri = URI(SCRYFALL_URI + SEARCH_CARDS_API)
+
+    uri.query = URI.encode_www_form(params)
+
+    get(uri)
+  end
 
   def list(page)
     params = {

@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190703051851) do
+ActiveRecord::Schema.define(version: 2021_01_28_230126) do
 
   create_table "deck_entries", force: :cascade do |t|
     t.integer "deck_id"
@@ -25,20 +24,24 @@ ActiveRecord::Schema.define(version: 20190703051851) do
   end
 
   create_table "magic_cards", force: :cascade do |t|
-    t.string  "name"
+    t.string "name"
     t.integer "cmc"
-    t.string  "rarity"
-    t.string  "price"
-    t.string  "image_url"
-    t.string  "multiverse_id"
-    t.string  "mana_cost"
-    t.string  "card_type"
+    t.string "rarity"
+    t.string "price"
+    t.string "image_url"
+    t.string "multiverse_id"
+    t.string "mana_cost"
+    t.string "card_type"
+    t.text "set_price_hash"
+    t.string "image_back"
   end
 
   create_table "my_cards", force: :cascade do |t|
-    t.string  "name"
+    t.string "name"
     t.integer "quantity"
     t.integer "box"
     t.integer "magic_card_id"
+    t.string "set_code"
   end
+
 end
