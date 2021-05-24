@@ -1,9 +1,9 @@
-<div id="cardsForTradeCarousel" class="carousel slide background-black" data-ride="carousel">
-  <ol class="carousel-indicators">
+<div id="cardsForTradeCarousel" class="carousel slide background-black" data-bs-ride="carousel">
+  <div class="carousel-indicators">
     <% @traders.find_in_batches(batch_size: 18).with_index do |_card, index| %>
-      <li data-target="#cardsForTradeCarousel" data-slide-to="<%= index%>" class="<%= index == 0 ? 'active' : '' %>"></li>
+      <button type="button" data-bs-target="#cardsForTradeCarousel" data-bs-slide-to="<%= index %>" class="<%= index == 0 ? 'active' : '' %>" <%= index == 0 ? 'aria-current="true"' : '' %>></button>
     <% end %>
-  </ol>
+  </div>
 
   <div class="carousel-inner">
     <% @traders.find_in_batches(batch_size: 18).with_index do |card_batch, batch_page| %>
@@ -14,19 +14,19 @@
             <br />
           <% end %>
           <a href=<%= "#{MyCardController::GATHERER_MULTIVERSE_URL}#{magic_card.multiverse_id}" %>>
-            <img class="img-responsive" src="_dos_prevention_<%= magic_card.image_url %>", alt="Image for <%= card.name%> not available" onerror="this.src='/assets/magic_card_back.jpg'">
+            <img class="img-fluid" src="dos_prevention_<%= magic_card.image_url %>", alt="Image for <%= card.name %> not available" onerror="this.src='/assets/magic_card_back.jpg'">
           </a>
         <% end %>
       </div>
     <% end %>
   </div>
 
-  <a class="carousel-control-prev" href="#cardsForTradeCarousel" role="button" data-slide="prev">
+  <button class="carousel-control-prev" type="button" data-bs-target="#cardsForTradeCarousel" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#cardsForTradeCarousel" role="button" data-slide="next">
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#cardsForTradeCarousel" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
-  </a>
+  </button>
 </div>

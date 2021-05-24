@@ -18,19 +18,19 @@ RSpec.describe MyCardController, type: :controller do
 
     context 'when search parameters do not match any of my cards' do
       it 'should return no search results in an empty relation' do
-        get :search, magic_card_search: 'random_card'
+        get :search, params: { magic_card_search: 'random_card' }
         expect(controller.instance_variable_get(:@matching_cards)).to be_empty
       end
 
       it 'should render index' do
-        get :search, magic_card_search: 'random_card'
+        get :search, params: { magic_card_search: 'random_card' }
         expect(response).to render_template(:index)
       end
     end
 
     context 'when search parameters match some of my cards' do
       it 'should return results in an active record relation' do
-        get :search, magic_card_search: 'card1'
+        get :search, params: { magic_card_search: 'card1' }
 
         expect(controller.instance_variable_get(:@matching_cards)).to eq(MyCard.where(name: 'card1'))
 
@@ -38,7 +38,7 @@ RSpec.describe MyCardController, type: :controller do
       end
 
       it 'should render index' do
-        get :search, magic_card_search: 'random_card'
+        get :search, params: { magic_card_search: 'random_card' }
         expect(response).to render_template(:index)
       end
     end

@@ -1,7 +1,7 @@
 require 'json'
 require 'open-uri'
 
-desc 'Ingest all of the cards from the Scryfall bulk card data file'
+desc 'Ingest all of the cards from the Scryfall bulk card data file (NOTE: SET IS LOWER CASE)'
 task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
   NAME = 'name'.freeze
   CMC = 'cmc'.freeze
@@ -10,8 +10,12 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
   RARITY = 'rarity'.freeze
   IMAGE_URL = 'image_uris'.freeze
   IMAGE_SIZE = 'small'.freeze
+  card_image_url = nil
+  card_type = nil
   MULTIVERSE_ID = 'multiverse_ids'.freeze
-  PRICE = 'usd'.freeze
+  CARD_FACES = 'card_faces'.freeze
+  PRICES = 'prices'.freeze
+  USD = 'usd'.freeze
   LANG = 'lang'.freeze
   ENGLISH = 'en'.freeze
   LAYOUT = 'layout'.freeze
@@ -22,7 +26,9 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
 
   Rails.application.eager_load!
 
-  download = open('https://archive.scryfall.com/json/scryfall-default-cards.json')
+  bulk_url = ScryfallClient.instance.get_bulk_data_url
+
+  download = URI.open(bulk_url)
 
   IO.copy_stream(download, FILE_DUMP_LOCATION)
 
@@ -47,8 +53,21 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
         next
       end
 
-      unless card[IMAGE_URL].try(:[], IMAGE_SIZE).present?
+      if card[IMAGE_URL].try(:[], IMAGE_SIZE).present?
+        card_image_url = card[IMAGE_URL][IMAGE_SIZE]
+      elsif card[CARD_FACES].present?
+        card_image_url = card[CARD_FACES].first[IMAGE_URL][IMAGE_SIZE]
+      else
         puts "Skipped due to missing image: #{card[NAME]}"
+        next
+      end
+
+      if card[CARD_TYPE].present?
+        card_type = card[CARD_TYPE]
+      elsif card[CARD_FACES].present?
+        card_type = card[CARD_FACES].first[CARD_TYPE]
+      else
+        puts "Skipped due to missing card type: #{card[NAME]}"
         next
       end
 
@@ -76,8 +95,8 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
           rarity: card[RARITY],
           card_type: card[CARD_TYPE],
           multiverse_id: card[MULTIVERSE_ID].first,
-          image_url: card[IMAGE_URL].try(:[], IMAGE_SIZE),
-          price: card[PRICE]
+          image_url: card_image_url,
+          price: card.dig(PRICES, USD)
         )
         p "Card entry updated for #{card[NAME]}"
       else
@@ -88,8 +107,8 @@ task :ingest_bulk_card_info, [:new_set] => :environment do |task, args|
           rarity: card[RARITY],
           card_type: card[CARD_TYPE],
           multiverse_id: card[MULTIVERSE_ID].first,
-          image_url: card[IMAGE_URL][IMAGE_SIZE],
-          price: card[PRICE]
+          image_url: card_image_url,
+          price: card.dig(PRICES, USD)
         )
         if new_card.valid?
           p "New Card entry inserted for #{new_card.name}"

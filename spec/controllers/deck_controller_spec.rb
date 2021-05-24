@@ -37,7 +37,7 @@ RSpec.describe DeckController, type: :controller do
 
     context 'with a non-existent deck id' do
       it 'sets the flash error and returns' do
-        get :delete, 'id' => 100
+        get :delete, params: { 'id' => 100 }
 
         expect(flash[:error]).to eq('Invalid deck id. Unable to delete non-existent deck.')
       end
@@ -45,7 +45,7 @@ RSpec.describe DeckController, type: :controller do
 
     context 'when the deckid exists' do
       it 'deletes the deck and associated deck entries' do
-        get :delete, 'id' => 1
+        get :delete, params: { 'id' => 1 }
 
         expect(flash[:success]).to eq('Success! Deleted deck and associated deck entries.')
 
@@ -62,8 +62,7 @@ RSpec.describe DeckController, type: :controller do
 
       context 'when the correct parameters are provided' do
         it 'creates the deck and redirects to index' do
-          get :create,
-              deck: { name: deck1, format: 'EDH' }
+          get :create, params: { deck: { name: deck1, format: 'EDH' } }
 
           expect(Deck.where(name: deck1).pluck(:name)).to eq([deck1])
           expect(response).to redirect_to(action: :index)
@@ -72,8 +71,7 @@ RSpec.describe DeckController, type: :controller do
 
       context 'when a parameter is missing' do
         it 'does not create the deck and redirects to new' do
-          get :create,
-              deck: { name: deck1 }
+          get :create, params: { deck: { name: deck1 } }
 
           expect(Deck.where(name: deck1).pluck(:name)).to eq([])
           expect(response).to redirect_to(action: :new)
@@ -101,8 +99,7 @@ RSpec.describe DeckController, type: :controller do
     context 'when all parameters are provided' do
       context 'when the parameters are valid' do
         it 'adds the card to the deck' do
-          get :add_cards,
-              cards: card_form
+          get :add_cards, params: { cards: card_form }
 
           expect(DeckEntry.all.count).to eq(card_form.count)
           expect(DeckEntry.all.pluck(:my_card_id)).to eq([my_card.id])
@@ -114,8 +111,7 @@ RSpec.describe DeckController, type: :controller do
           it 'adds them to the deck' do
             card_form.push({deckId: deck.id, name: another_card.name, box: another_card.box, quantity: 1 })
 
-            get :add_cards,
-                cards: card_form
+            get :add_cards, params: { cards: card_form }
 
             expect(DeckEntry.all.count).to eq(card_form.count)
             expect(DeckEntry.all.pluck(:my_card_id)).to eq([my_card.id, another_card.id])
@@ -128,8 +124,7 @@ RSpec.describe DeckController, type: :controller do
         it 'returns bad request' do
           card_form.first.merge!(quantity: 3)
 
-          get :add_cards,
-              cards: card_form
+          get :add_cards, params: { cards: card_form }
 
           expect(response.status).to be 400
           expect(JSON.parse(response.body)['errors'].first).to match(/is greater than that cards available quantity/)
@@ -142,8 +137,7 @@ RSpec.describe DeckController, type: :controller do
         it 'returns bad request' do
           card_form.first.merge!(quantity: 'a')
 
-          get :add_cards,
-              cards: card_form
+          get :add_cards, params: { cards: card_form }
 
           expect(response.status).to be 400
           expect(JSON.parse(response.body)['errors'].first).to match(/is not a valid quantity to add/)
@@ -157,8 +151,7 @@ RSpec.describe DeckController, type: :controller do
           it 'returns bad request' do
             card_form.first.merge!(deckId: nil)
 
-            get :add_cards,
-                cards: card_form
+            get :add_cards, params: { cards: card_form }
 
             expect(response.status).to be 400
             expect(JSON.parse(response.body)['errors'].first).to match(/Deck can't be blank/)

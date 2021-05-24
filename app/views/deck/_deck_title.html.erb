@@ -1,25 +1,31 @@
-<a class="nav-link <%= @active_deck.to_i == deck.id ? 'active' : '' %>" id="v-pills-<%= deck.id %>-tab" data-toggle="pill" href="#v-pills-<%= deck.id %>" role="tab" aria-controls="v-pills-<%= deck.id %>" aria-selected="true" onclick="setActiveDeck(<%= deck.id %>)">
-  <%= deck.name %>
+<div class="row deck-title">
+  <div class="col-8">
+    <a class="nav-link <%= @active_deck.to_i == deck.id ? 'active' : '' %>" id="v-pills-<%= deck.id %>-tab" data-toggle="pill" href="#v-pills-<%= deck.id %>" role="tab" aria-controls="v-pills-<%= deck.id %>" aria-selected="true" onclick="setActiveDeck(<%= deck.id %>)">
+      <%= deck.name %>
+    </a>
+  </div>
+  <div class="col-1">
+  </div>
+  <div class="col-2">
+    <button class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#confirmationModal-<%= deck.id %>">
+      Delete
+    </button>
+  </div>
+</div>
 
-  <button class="btn btn-sm btn-danger float-right" data-toggle="modal" data-target="#confirmationModal-<%= deck.id %>">
-    Delete
-  </button>
-</a>
-
-<div class="modal fade" id="confirmationModal-<%= deck.id %>" tabindex="-1" role="dialog" aria-labelledby="deleteDeckLabel" aria-hidden="true">
+<div class="modal fade" id="confirmationModal-<%= deck.id %>" tabindex="-1" aria-labelledby="deleteDeckLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Deletion Confirmation</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
         </button>
       </div>
       <div class="modal-body">
         Woah there Cowboy! Are you sure you want to delete your <%= deck.name %> deck?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No Keep the Deck</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No Keep the Deck</button>
         <a class="btn btn-danger" href="/deck/delete/<%= deck.id%>">Delete Deck!</a>
       </div>
     </div>

@@ -1,6 +1,6 @@
 # Model for the entries in the Deck table in the database,
 # comprised of list of associated cards in the deck.
-class Deck < ActiveRecord::Base
+class Deck < ApplicationRecord
   self.table_name = 'decks'
 
   MTG_FORMATS = %w(EDH Modern Standard).freeze

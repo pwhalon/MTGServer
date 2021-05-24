@@ -1,6 +1,6 @@
 # Model to represent the connection between a card in the database and the deck that it is a part of
 # along with how many of that card are in the deck.
-class DeckEntry < ActiveRecord::Base
+class DeckEntry < ApplicationRecord
   self.table_name = 'deck_entries'
 
   belongs_to :deck

@@ -1,7 +1,7 @@
 require 'validators/card_name_validator'
 
 # Model for the entries in the MyCards database comprising the Name, Quantity, and Box location.
-class MyCard < ActiveRecord::Base
+class MyCard < ApplicationRecord
   self.table_name = 'my_cards'
 
   CARDS_FOR_TRADE = [-1, -2].freeze

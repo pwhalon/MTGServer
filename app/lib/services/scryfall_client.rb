@@ -10,6 +10,7 @@ class ScryfallClient
   SCRYFALL_URI = 'https://api.scryfall.com'.freeze
   LIST_CARDS_API = '/cards'.freeze
   GET_MULTIVERSE_CARD_API = '/cards/multiverse/'.freeze
+  BULK_CARD_URL_API = '/bulk-data'.freeze
 
   # Will likely never need to use as there is a daily dump of the current cards in Scryfalls
   # database. Can use that instead of making a bunch of network calls.
@@ -43,6 +44,22 @@ class ScryfallClient
     uri = URI(SCRYFALL_URI + GET_MULTIVERSE_CARD_API + multiverse_id)
 
     get(uri)
+  end
+
+  def get_bulk_data_url
+    uri = URI(SCRYFALL_URI + BULK_CARD_URL_API)
+
+    bulk_options = get(uri)
+
+    return nil if bulk_options.blank?
+
+    default_option = bulk_options['data'].find { |option| option['type'] == 'default_cards' }
+
+    if default_option
+      return default_option['download_uri']
+    else
+      return nil
+    end
   end
 
   private

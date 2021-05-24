@@ -17,7 +17,7 @@ RSpec.describe TransactionController, type: :controller do
 
       context 'when the cards do not already exist' do
         it 'create and saves the cards' do
-          post :transaction, 'list' => user_cards
+          post :transaction, params: { 'list' => user_cards }
 
           expect(MyCard.all.pluck(:name)).to eq(['card1', 'card2', 'card3'])
           expect(MyCard.with_box_number(1).count).to eq(2)
@@ -29,7 +29,7 @@ RSpec.describe TransactionController, type: :controller do
         it 'should increase the quantity of the card' do
           MyCard.new(name: 'card1', quantity: 100, box: 1).save
 
-          post :transaction, list: user_cards
+          post :transaction, params: { list: user_cards }
 
           expect(MyCard.all.pluck(:name)).to eq(['card1', 'card2', 'card3'])
           expect(MyCard.with_name('card1').pluck(:quantity).first).to eq(101)
@@ -61,7 +61,7 @@ RSpec.describe TransactionController, type: :controller do
 
       context 'with invalid quantity' do
         it 'should flash an error ' do
-          post :transaction, 'list' => invalid_user_card
+          post :transaction, params: { 'list' => invalid_user_card }
 
           expect(response).to be_bad_request
           expect(JSON.parse(response.body).first['error']).to eq(quantity_must_be_number_message)
@@ -70,7 +70,7 @@ RSpec.describe TransactionController, type: :controller do
 
       context 'with multiple invalid fields' do
         it 'should flash an error ' do
-          post :transaction, 'list' => multiple_invalid_user_cards
+          post :transaction, params: { 'list' => multiple_invalid_user_cards }
 
           expect(response).to be_bad_request
           expect(JSON.parse(response.body).map{ |transaction| transaction['error'] }).to eq(multiple_error_messages)
