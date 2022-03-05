@@ -1,4 +1,4 @@
-class RenameMagicCardColumns < ActiveRecord::Migration
+class RenameMagicCardColumns < ActiveRecord::Migration[5.2]
   def change
     # Rename image url column
     remove_column :magic_cards, :imageUrl, :string
